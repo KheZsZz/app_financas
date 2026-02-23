@@ -2,7 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import routes from '@/routes'; // Importa o index.ts da pasta routes
-import { errorHandler } from '@/middleware/errorHandle';
+import { errorHandler } from '@/middlewares/errorHandle';
 
 const app = express();
 
