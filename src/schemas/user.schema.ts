@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { ProfileStatusEnum, blacklistedDomains } from '@/schemas/enum.schema';
 
 export const UserSchema = z.object({
   id_user: z.string().uuid({ message: "ID inválido" }),
@@ -20,7 +21,6 @@ export const UserSchema = z.object({
     .email("Formato de e-mail inválido")
     .max(255, "O e-mail é muito longo")
     .refine((email) => {
-      const blacklistedDomains = ['tempmail.com', 'mailinator.com', '10minutemail.com'];
       const domain = email.split('@')[1];
       return !blacklistedDomains.includes(domain);
     }, {
@@ -29,8 +29,19 @@ export const UserSchema = z.object({
 
   phone_user: z.string()
     .trim()
-    .regex(/^\(\d{2}\)\s\d\.\d{4}-\d{4}$/, "Telefone deve seguir o padrão (11) 9.9577-8573")
+    .regex(/^\(\d{2}\)\s\d\.\d{4}-\d{4}$/, "Telefone deve seguir o padrão (99) 9.9999-9999"),
+
+  password_user: z.string()
+    .trim()
+    .min(8, "A senha deve ter pelo menos 8 caracteres")
+    .regex(/[A-Z]/, "A senha deve conter pelo menos uma letra maiúscula")
+    .regex(/[0-9]/, "A senha deve conter pelo menos um número")
+    .regex(/[^a-zA-Z0-9]/, "A senha deve conter pelo menos um caractere especial"),
+
+  profile_user: ProfileStatusEnum.default('commum'),
+
+  created_at: z.date().optional(),
 });
 
-// Tipo TypeScript extraído do Schema
+
 export type UserType = z.infer<typeof UserSchema>;
