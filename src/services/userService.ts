@@ -1,8 +1,6 @@
 import { supabase } from '@/config/supabase';
 import { UserSchema, UserType } from '@/schemas/user.schema';
 
-
-
 export const usersService = {
 
   async getAllUsers():Promise<UserType []> {
