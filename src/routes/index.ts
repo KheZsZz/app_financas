@@ -10,6 +10,6 @@ const router = Router();
 
 // Rotas 
 router.use('/users', userRoutes);
-router.use('/categorys', categoryRoutes);
+router.use('/categorys', authMiddleware, categoryRoutes);
 
 export default router;
