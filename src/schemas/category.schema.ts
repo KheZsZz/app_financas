@@ -13,4 +13,10 @@ export const CategorySchema = z.object({
   created_at: z.date().optional(),
 });
 
+export const RequestCategory = CategorySchema.omit({
+  id_category:true,
+  created_at:true,  
+  user_id:true
+})
+
 export type CategoryType = z.infer<typeof CategorySchema>;
