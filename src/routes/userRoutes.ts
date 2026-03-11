@@ -1,12 +1,13 @@
 import { Router } from 'express';
 import { userController } from '@/controllers/userController';
+import { authMiddleware } from '@/middlewares/auth';
 
 
 const router = Router();
 
-router.get('/', userController.list);
+router.get('/', authMiddleware, userController.getProfile);
 router.post('/', userController.create);
-router.patch('/:id', userController.update);
-router.delete('/:id', userController.delete);
+router.patch('/', authMiddleware, userController.update);
+;
 
 export default router;

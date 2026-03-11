@@ -5,16 +5,16 @@ export const UserSchema = z.object({
   id_user: z.string().uuid({ message: "ID inválido" }),
 
   name_user: z.string()
-  .trim()
-  .min(3, "O nome deve ter pelo menos 3 caracteres")
-  .max(100)
-  .refine((fullname) => {
-      const words = fullname.split(/\s+/).filter(word => word.length > 0);
-      return words.length >= 2;
-    }, {
-      message: "Por favor, insira seu nome completo (nome e sobrenome)"
-    }),
-    
+    .trim()
+    .min(3, "O nome deve ter pelo menos 3 caracteres")
+    .max(100)
+    .refine((fullname) => {
+        const words = fullname.split(/\s+/).filter(word => word.length > 0);
+        return words.length >= 2;
+      }, {
+        message: "Por favor, insira seu nome completo (nome e sobrenome)"
+      }),
+      
   email_user: z.string()
     .trim()
     .toLowerCase()
@@ -27,10 +27,6 @@ export const UserSchema = z.object({
       message: "Por favor, use um provedor de e-mail confiável"
     }),
 
-  phone_user: z.string()
-    .trim()
-    .regex(/^\(\d{2}\)\s\d\.\d{4}-\d{4}$/, "Telefone deve seguir o padrão (99) 9.9999-9999"),
-
   password_user: z.string()
     .trim()
     .min(8, "A senha deve ter pelo menos 8 caracteres")
@@ -41,7 +37,21 @@ export const UserSchema = z.object({
   profile_user: ProfileStatusEnum.default('commum'),
 
   created_at: z.date().optional(),
+  
+  phone_user: z.string()
+    .trim()
+    .regex(/^\(\d{2}\)\s\d\.\d{4}-\d{4}$/, "Telefone deve seguir o padrão (99) 9.9999-9999"),
 });
 
+
+export const RegisterUserSchema = UserSchema.omit({ 
+  id_user: true, 
+  created_at: true 
+});
+
+export const LoginUserSchema = UserSchema.pick({ 
+  email_user: true, 
+  password_user: true 
+});
 
 export type UserType = z.infer<typeof UserSchema>;
