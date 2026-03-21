@@ -12,7 +12,7 @@ export const BankSchema = z.object({
     .transform((val) => 
       val.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, "$1.$2.$3/$4-$5")
     ),
-  icon_link: z.string().url("Link do ícone deve ser uma URL válida"),
+  icon_link: z.string().url("Link do ícone deve ser uma URL válida").optional(),
 });
 
 export const AccountSchema = z.object({
