@@ -1,9 +1,14 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
 export const StylesMain = StyleSheet.create({
-    container:{
-        justifyContent: 'center',
-        alignContent:'center',
-        padding: 8,
-    }
-})
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignContent: "center",
+    padding: 8,
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: "bold",
+  },
+});

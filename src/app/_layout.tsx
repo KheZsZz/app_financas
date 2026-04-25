@@ -1,10 +1,17 @@
-import { View } from 'react-native';
-import { StylesMain } from '@/styles/main'
+import { Tabs, Stack } from "expo-router";
+import Head from "expo-router/head";
 
-export const Login = () => {
-    return (
-        <View style = { StylesMain.container }>
-            
-        </View>
-    )
-} 
+const Layout = () => {
+  return (
+    <>
+      <Head>
+        <title>Finanças</title>
+        <meta name="description" content="Expo Router Layouts Demo" />
+      </Head>
+      <Stack>
+        <Stack.Screen name="index" options={{ headerShadowVisible: false }} />
+      </Stack>
+    </>
+  );
+};
+export default Layout;
