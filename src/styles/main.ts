@@ -3,26 +3,30 @@ import { StyleSheet } from "react-native";
 export const StylesMain = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#fff",
+    padding: 20,             
     justifyContent: "center",
-    alignContent: "center",
-    padding: 8,
-    rowGap: 16,
+    alignItems: "center",    
   },
 
   content: {
+    width: "100%",           
     justifyContent: "center",
-    alignContent: "center",
-    rowGap: 12,
+    rowGap: 15,              
   },
 
   title: {
-    fontSize: 22,
+    width: "100%",          
+    textAlign: "center",     
+    fontSize: 26,            
     fontWeight: "bold",
+    marginBottom: 20,        
   },
 
   link: {
-    marginTop: 8,
+    marginTop: 10,
     color: "#1e90ff",
     fontSize: 16,
+    textAlign: "center",     
   },
 });
