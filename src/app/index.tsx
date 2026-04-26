@@ -9,7 +9,6 @@ import { Button } from "@/components/Button";
 import { supabase } from "@/config/supabase";
 
 const App = () => {
-  const router = useRouter();
 
   const {
     control,
@@ -25,7 +24,10 @@ const App = () => {
         email: data.email_user,
         password: data.password_user,
       });
-      if (error) throw error;
+      if (error){
+        console.error("Login error:", error);
+        throw error;
+      } 
     } catch (error:any) {
       const message = error?.message || "Erro ao realizar login";
       Alert.alert("Falha na autenticação", message);
@@ -54,7 +56,7 @@ const App = () => {
         />
 
         <Button
-          icon="arrow-forward"
+          icon="enter"
           name="Enter"
           isLoading={isSubmitting}
           onSubmit={handleSubmit(handleSingIn)}
