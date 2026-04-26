@@ -1,53 +1,72 @@
 import Head from "expo-router/head";
-import { useEffect, useState } from "react";
+import Toast from "react-native-toast-message";
+import { useEffect } from "react";
+import { StatusBar } from "react-native";
 import { Stack, useRouter, useSegments } from "expo-router";
-import { supabase } from "@/config/supabase";
+import { AuthProvider, useAuth } from "@/context/AuthContext";
 import { Loadding } from "@/components/Loadding";
+import { toastConfig } from '@/components/Toast';
 
-const Layout = () => {
-  const router = useRouter();
+
+function AuthGuard() {
+  const { user, isInitializing } = useAuth();
   const segments = useSegments();
-
-  const [isInitializing, setIsInitializing] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
-    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+    if (isInitializing) return;
 
-      const inAuthGroup = segments[0] === "(auth)";
+    const inAuthGroup = segments[0] === "(auth)";
+    const isPublicPage = segments[0] === undefined || segments[0] === "Register";
 
-      if (!session && inAuthGroup) {
-        router.replace("/"); 
-      } else if (session && (segments[0] === undefined || segments[0] === "Register")) {
-        router.replace("/(auth)/Dashboard");
-      }
-      setIsInitializing(false);
-    });
-
-    return () => {
-      authListener.subscription.unsubscribe();
-    };
-  }, [segments]);
+    if (!user && inAuthGroup) {
+      router.replace("/");
+    } else if (user && isPublicPage) {
+      router.replace("/(auth)/Dashboard");
+    }
+  }, [user, isInitializing, segments]);
 
   if (isInitializing) {
-    return (
-      <Loadding />
-    );
+    return <Loadding />;
   }
 
   return (
-    <>
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="index" /> 
+      <Stack.Screen 
+        name="Register" 
+        options={{ 
+          headerShown: true, 
+          headerTitle: "Criar Conta",
+          headerTintColor: "#fff",
+          headerStyle: { backgroundColor: "#1e90ff" }
+        }} 
+      />
+      <Stack.Screen name="(auth)" options={{ gestureEnabled: false }} />
+    </Stack>
+  );
+}
+
+const RootLayout = () => {
+  return (
+    <AuthProvider>
       <Head>
         <title>Finanças</title>
         <meta name="description" content="Gerenciador de Finanças Pessoais" />
       </Head>
+
+      <StatusBar barStyle="light-content" backgroundColor="#1e90ff" />
       
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="index" /> 
-        <Stack.Screen name="Register" options={{ headerShown: true, headerTitle: "Criar Conta" }} />
-        <Stack.Screen name="(auth)" options={{ gestureEnabled: false }} />
-      </Stack>
-    </>
+      <AuthGuard />
+
+      <Toast 
+        config={toastConfig} 
+        position="bottom"
+        bottomOffset={70}
+        visibilityTime={5000}
+      />
+    </AuthProvider>
   );
 };
 
-export default Layout;
+export default RootLayout;
