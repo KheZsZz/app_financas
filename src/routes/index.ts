@@ -16,5 +16,6 @@ router.use('/users', userRoutes);
 router.use('/categorys', authMiddleware, categoryRoutes);
 router.use('/banks', authMiddleware, bankRoutes);
 router.use('/expenses', authMiddleware, expenseRoutes);
+router.use('/singIn', authMiddleware, userRoutes);
 
 export default router;

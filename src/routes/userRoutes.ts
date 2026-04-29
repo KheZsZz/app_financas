@@ -8,6 +8,6 @@ const router = Router();
 router.get('/', authMiddleware, userController.getProfile);
 router.post('/', userController.create);
 router.patch('/', authMiddleware, userController.update);
-router.get('/singIn', userController.signIn);
+// router.delete('/', authMiddleware, userController.delete);
 
 export default router;

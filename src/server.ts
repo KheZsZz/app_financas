@@ -3,7 +3,6 @@ import express from 'express';
 import cors from 'cors';
 import routes from '@/routes'; 
 import { errorHandler } from '@/middlewares/errorHandle'; 
-import { supabase } from '@/config/supabase';
 
 
 const app = express();
