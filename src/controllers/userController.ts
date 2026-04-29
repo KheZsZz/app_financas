@@ -4,7 +4,27 @@ import { supabase } from '@/config/supabase';
 import { AuthRequest } from '@/middlewares/auth';
 
 export const userController = {
-async getProfile(req: AuthRequest, res: Response, next: NextFunction) {
+
+  async signIn(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { email_user, password_user } = req.body; 
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email_user,
+        password: password_user,
+      });  
+      if (error) return res.status(400).json({ error: error.message });
+
+      return res.status(200).json({ 
+        message: "Login bem-sucedido!", 
+        session: data.session,
+        user: data.user
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async getProfile(req: AuthRequest, res: Response, next: NextFunction) {
     try {
       const userId = req.user?.id;
 
